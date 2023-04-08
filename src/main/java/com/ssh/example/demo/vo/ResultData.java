@@ -2,16 +2,21 @@ package com.ssh.example.demo.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class ResultData<DT> {
+	@Getter
 	// S-1, F-1, F-2 ...
 	private String resultCode;
+	@Getter
 	private String msg;
-	private DT data1;
+	@Getter
+	private Object data1;
+	
 	
 	
 	

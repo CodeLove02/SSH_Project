@@ -11,4 +11,4 @@ spring:
     username: root
     password: 
 mybatis:
-  type-aliases-package: com.cjh.exam.demo.vo
+  type-aliases-package: com.ssh.example.demo.vo

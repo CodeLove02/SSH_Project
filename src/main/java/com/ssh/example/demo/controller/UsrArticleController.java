@@ -35,7 +35,7 @@ public class UsrArticleController {
 
 		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body);
 
-		int id = writeArticleRd.getData1();
+		int id = (Integer)writeArticleRd.getData1();
 
 		return ResultData.from(writeArticleRd.getResultCode(),writeArticleRd.getMsg(), id);
 

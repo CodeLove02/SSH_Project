@@ -1,20 +1,6 @@
 package com.ssh.example.demo.util;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssh.example.demo.util.Utility;
 
 public class Utility {
 
@@ -37,6 +23,44 @@ public class Utility {
 	public static String f(String format, Object... args) {
 		return String.format(format, args);
 	}
+	
+public static String jsHistoryBack(String msg) {
+		
+		if(msg == null) {
+			msg = "";
+		}
+		
+		return Utility.f("""
+						<script>
+							const msg = '%s'.trim();
+							if(msg.length > 0){
+								alert(msg);
+							}
+							history.back();
+						</script>
+						""", msg);
+	}
+
+public static String jsReplace(String msg, String uri) {
+	if(msg == null) {
+		msg = "";
+	}
+	
+	if(uri == null) {
+		uri = "";
+	}
+	
+	return Utility.f("""
+					<script>
+						const msg = '%s'.trim();
+						if(msg.length > 0){
+							alert(msg);
+						}
+						location.replace('%s');
+					</script>
+					""", msg, uri);
+}
+
 
 	
 	
