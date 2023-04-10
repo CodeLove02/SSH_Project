@@ -21,10 +21,10 @@ public class ArticleService {
 	}
 	
 	
-	public ResultData<Integer> writeArticle(String title, String body) {
-		articleRepository.writeArticle(title, body);
+	public ResultData<Integer> writeArticle(int memberId, String title, String body) {
+		articleRepository.writeArticle(memberId, title, body);
 		int id = articleRepository.getLastInsertId();
-		return ResultData.from("S-1", Utility.f("%d번 게시물이 생성되었습니다", id), id);
+		return ResultData.from("S-1", Utility.f("%d번 게시물이 생성되었습니다", id), "id", id);
 	}
 	
 	public Article getArticle(int id) {
@@ -32,10 +32,6 @@ public class ArticleService {
 	}
 
 	
-	public Article getForPrintArticle(int id) {
-		return articleRepository.getForPrintArticle(id);
-	}
-
 	public void deleteArticle(int id) {
 		articleRepository.deleteArticle(id);
 	}
@@ -53,13 +49,49 @@ public class ArticleService {
 	}
 
 	
-	public ResultData actorCanModify(int loginedMemberId, Article article) {
+//	public ResultData actorCanModify(int loginedMemberId, Article article) {
+//		
+//		if(loginedMemberId != article.getMemberId()) {
+//			return ResultData.from("F-B", "해당 게시물에 대한 권한이 없습니다");
+//		}
+//		
+//		return ResultData.from("S-1", "수정 가능");
+//	}
+	
+	
+	
+	public ResultData actorCanMD(int loginedMemberId, Article article) {
+		
+		if(article == null) {
+			return ResultData.from("F-1", Utility.f("해당 게시물은 존재하지 않습니다"));
+		}
 		
 		if(loginedMemberId != article.getMemberId()) {
 			return ResultData.from("F-B", "해당 게시물에 대한 권한이 없습니다");
 		}
 		
-		return ResultData.from("S-1", "수정 가능");
+		return ResultData.from("S-1", "가능");
+	}
+	
+	
+	
+	public Article getForPrintArticle(int loginedMemberId, int id) {
+		
+		Article article = articleRepository.getForPrintArticle(id);
+		
+		actorCanChangeData(loginedMemberId, article);
+		
+		return article;
+	}
+	
+	private void actorCanChangeData(int loginedMemberId, Article article) {
+		if(article == null) {
+			return;
+		}
+		
+		ResultData actorCanChangeDataRd = actorCanMD(loginedMemberId, article);
+		article.setActorCanChangeData(actorCanChangeDataRd.isSuccess());
+		
 	}
 
 	
