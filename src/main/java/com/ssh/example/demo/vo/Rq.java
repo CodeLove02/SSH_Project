@@ -26,7 +26,8 @@ public class Rq {
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
 	private HttpSession session;
-
+	
+	//의존성 주입
 	public Rq(HttpServletRequest req, HttpServletResponse resp, MemberService memberService) {
 		this.req = req;
 		this.resp = resp;
@@ -60,5 +61,20 @@ public class Rq {
 		req.setAttribute("historyBack", historyBack);
 		return "usr/common/js";
 	}
+	
+	public void jsPrintHistoryBack(String msg) {
+		resp.setContentType("text/html; charset=UTF-8");
+		
+		print(Utility.jsHistoryBack(msg));
+	}
+	
+	private void print(String str) {
+		try {
+			resp.getWriter().append(str);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	
 }
