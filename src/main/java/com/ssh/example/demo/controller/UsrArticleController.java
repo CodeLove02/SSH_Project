@@ -2,6 +2,7 @@ package com.ssh.example.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import com.ssh.example.demo.service.ArticleService;
 import com.ssh.example.demo.util.Utility;
 import com.ssh.example.demo.vo.Article;
 import com.ssh.example.demo.vo.ResultData;
+import com.ssh.example.demo.vo.Rq;
 
 @Controller
 public class UsrArticleController {
@@ -83,6 +85,24 @@ public class UsrArticleController {
 		articleService.deleteArticle(id);
 
 		return ResultData.from("S-1", Utility.f("%d번 게시물을 삭제했습니다", id), "id", id);
+	}
+	
+	@RequestMapping("/usr/article/modify")
+	public String showModify(HttpServletRequest req, Model model, int id) {
+
+		Rq rq = (Rq) req.getAttribute("rq");
+		
+		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
+
+		ResultData actorCanMDRd = articleService.actorCanMD(rq.getLoginedMemberId(), article);
+
+		if (actorCanMDRd.isFail()) {
+			return rq.jsReturnOnView(actorCanMDRd.getMsg(), true);
+		}
+		
+		model.addAttribute("article", article);
+		
+		return "usr/article/modify";
 	}
 
 	@RequestMapping("/usr/article/doModify")

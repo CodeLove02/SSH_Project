@@ -26,8 +26,7 @@ public class Rq {
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
 	private HttpSession session;
-	
-	//의존성 주입
+
 	public Rq(HttpServletRequest req, HttpServletResponse resp, MemberService memberService) {
 		this.req = req;
 		this.resp = resp;
@@ -46,7 +45,19 @@ public class Rq {
 		
 	}
 
-	
+	public void jsPrintHistoryBack(String msg) {
+		resp.setContentType("text/html; charset=UTF-8");
+		
+		print(Utility.jsHistoryBack(msg));
+	}
+
+	private void print(String str) {
+		try {
+			resp.getWriter().append(str);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void login(Member member) {
 		session.setAttribute("loginedMemberId", member.getId());
@@ -62,19 +73,20 @@ public class Rq {
 		return "usr/common/js";
 	}
 	
-	public void jsPrintHistoryBack(String msg) {
-		resp.setContentType("text/html; charset=UTF-8");
-		
-		print(Utility.jsHistoryBack(msg));
-	}
-	
-	private void print(String str) {
-		try {
-			resp.getWriter().append(str);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public String getProfileImgUri(int membeId) {
+		return "/common/genFile/file/member/" + membeId + "/extra/profileImg/1";
 	}
 
+	public String getProfileFallbackImgUri() {
+		return "https://via.placeholder.com/150/?text=*^_^*";
+	}
+
+	public String getProfileFallbackImgOnErrorHtml() {
+		return "this.src = '" + getProfileFallbackImgUri() + "'";
+	}
+	
+	public String getRemoveProfileImgIfNotExitOnErrorHtmlAttr() {
+		return "$(this).remove()";
+	}
 	
 }

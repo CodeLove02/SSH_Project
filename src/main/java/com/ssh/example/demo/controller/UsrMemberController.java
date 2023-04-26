@@ -1,5 +1,7 @@
 package com.ssh.example.demo.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,8 +72,13 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(String loginId, String loginPw) {
+	public String doLogin(HttpServletRequest req, String loginId, String loginPw) {
 
+		Rq rq = (Rq) req.getAttribute("rq");
+		
+		if (rq.getLoginedMemberId() != 0) {
+			return Utility.jsHistoryBack("이미 로그인 되어있습니다");
+		}
 		if (Utility.empty(loginId)) {
 			return Utility.jsHistoryBack("아이디를 입력해주세요");
 		}
@@ -84,20 +91,15 @@ public class UsrMemberController {
 		if (member == null) {
 			return Utility.jsHistoryBack("존재하지 않는 아이디입니다");
 		}
-		
+
 		if (member.getLoginPw().equals(loginPw) == false) {
 			return Utility.jsHistoryBack("비밀번호가 일치하지 않습니다");
 		}
 
-		if (member.isDelStatus() == true) {
-			return Utility.jsHistoryBack("사용할 수 없는 계정입니다");
-		}
-		
 		rq.login(member);
 
 		return Utility.jsReplace(Utility.f("%s님 환영합니다", member.getNickname()), "/");
 	}
-
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
 	public String doLogout() {
