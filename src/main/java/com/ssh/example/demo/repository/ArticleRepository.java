@@ -9,21 +9,17 @@ import com.ssh.example.demo.vo.Article;
 @Mapper
 public interface ArticleRepository {
 
-	public void writeArticle(String title, String body);
-	
-	public int getLastInsertId();
-	
 	public void writeArticle(int memberId, String title, String body);
 
 	public Article getArticle(int id);
-	
-	public Article getForPrintArticle(int id);
 
-	public List<Article> getArticles();
+	public List<Article> getArticles(int boardId);
 	
 	public void deleteArticle(int id);
 
 	public void modifyArticle(int id, String title, String body);
 
-	
+	public int getLastInsertId();
+
+	public Article getForPrintArticle(int id);
 }
