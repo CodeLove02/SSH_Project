@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.cjh.exam.demo.repository.ArticleRepository">
+<mapper namespace="com.ssh.example.demo.repository.ArticleRepository">
 
 	<insert id="writeArticle">
 		INSERT INTO article
@@ -26,6 +26,22 @@
 		<if test="boardId != 0">
 			AND boardId = #{boardId}
 		</if>
+		<if test="searchKeyword != ''">
+			<choose>
+				<when test="searchKeywordTypeCode == 'title'">
+					AND title LIKE CONCAT('%', #{searchKeyword}, '%')
+				</when>
+				<when test="searchKeywordTypeCode == 'body'">
+					AND body LIKE CONCAT('%', #{searchKeyword}, '%')
+				</when>
+				<otherwise>
+					AND (
+							title LIKE CONCAT('%', #{searchKeyword}, '%')
+							OR body LIKE CONCAT('%', #{searchKeyword}, '%')
+						)
+				</otherwise>
+			</choose>
+		</if>
 	</select>
 	
 	<select id="getForPrintArticle" resultType="Article">
@@ -45,7 +61,23 @@
 <!-- 			if 조건이 하나면 이처럼 안해도 되지만 여러개면 이 방식으로 처리 -->
 			<if test="boardId != 0">
 				AND A.boardId = #{boardId}
-			</if> 
+			</if>
+			<if test="searchKeyword != ''">
+				<choose>
+					<when test="searchKeywordTypeCode == 'title'">
+						AND title LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+					<when test="searchKeywordTypeCode == 'body'">
+						AND body LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+					<otherwise>
+						AND (
+								title LIKE CONCAT('%', #{searchKeyword}, '%')
+								OR body LIKE CONCAT('%', #{searchKeyword}, '%')
+							)
+					</otherwise>
+				</choose>
+			</if>
 			ORDER BY A.id DESC
 			LIMIT #{limitStart}, #{itemsInAPage}
 	</select>
