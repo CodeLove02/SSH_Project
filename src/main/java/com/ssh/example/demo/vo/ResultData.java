@@ -1,13 +1,7 @@
 package com.ssh.example.demo.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 public class ResultData<DT> {
 	@Getter
 	// S-1, F-1, F-2 ...
@@ -18,26 +12,13 @@ public class ResultData<DT> {
 	private String data1Name;
 	@Getter
 	private DT data1;
-	
-	
-	
-	public ResultData(String resultCode, String msg, Object... args) {
-		this.resultCode = resultCode;
-		this.msg = msg;
-		
-	}
+	@Getter
+	private String data2Name;
+	@Getter
+	private Object data2;
 	
 	public static <DT> ResultData<DT> from(String resultCode, String msg) {
-		return from(resultCode, msg, null);
-	}
-	
-	public static <DT> ResultData<DT> from(String resultCode, String msg, DT data1) {
-		ResultData<DT> rd = new ResultData<>();
-		rd.resultCode = resultCode;
-		rd.msg = msg;
-		rd.data1 = data1;
-		
-		return rd;
+		return from(resultCode, msg, null, null);
 	}
 	
 	public static <DT> ResultData<DT> from(String resultCode, String msg, String data1Name, DT data1) {
@@ -58,6 +39,9 @@ public class ResultData<DT> {
 		return isSuccess() == false;
 	}
 
-
+	public void setData2(String data2Name, Object data2) {
+		this.data2Name = data2Name;
+		this.data2 = data2;
+	}
 
 }
