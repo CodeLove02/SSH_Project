@@ -40,7 +40,7 @@ public class MemberService {
 		
 		memberRepository.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
 		int id = memberRepository.getLastInsertId();
-		return new ResultData("S-1", "회원가입이 완료되었습니다", "id", id);
+		return ResultData.from("S-1", "회원가입이 완료되었습니다", "id", id);
 	}
 
 	
