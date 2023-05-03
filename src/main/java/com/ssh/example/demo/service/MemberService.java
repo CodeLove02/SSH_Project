@@ -11,14 +11,11 @@ import com.ssh.example.demo.vo.ResultData;
 @Service
 public class MemberService {
 	
-	
 	private MemberRepository memberRepository;
-	
 	
 	@Autowired
 	public MemberService(MemberRepository memberRepository) {
 		this.memberRepository = memberRepository;
-		
 	}
 
 	public ResultData<Integer> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
@@ -43,8 +40,6 @@ public class MemberService {
 		return ResultData.from("S-1", "회원가입이 완료되었습니다", "id", id);
 	}
 
-	
-	
 	public Member getMemberById(int id) {
 		return memberRepository.getMemberById(id);
 	}
@@ -53,8 +48,16 @@ public class MemberService {
 		return memberRepository.getMemberByLoginId(loginId);
 	}
 	
-	public Member getMemberByNameAndEmail(String name, String email) {
+	private Member getMemberByNameAndEmail(String name, String email) {
 		return memberRepository.getMemberByNameAndEmail(name, email);
 	}
 
+	public void doModify(int loginedMemberId, String nickname, String cellphoneNum, String email) {
+		memberRepository.doModify(loginedMemberId, nickname, cellphoneNum, email);
+	}
+
+	public void doPassWordModify(int loginedMemberId, String loginPw) {
+		memberRepository.doPassWordModify(loginedMemberId, loginPw);
+	}
+	
 }
