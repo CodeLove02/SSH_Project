@@ -3,7 +3,6 @@
 <c:set var="pageTitle" value="JOIN" />
 <%@ include file="../common/head.jsp"%>
 
-
 <script>
 
 	let validLoginId = '';
@@ -55,7 +54,6 @@
 			return;
 		}
 		
-		
 		form.cellphoneNum.value = form.cellphoneNum.value.trim();
 		if (form.cellphoneNum.value.length == 0) {
 			alert('전화번호를 입력해주세요');
@@ -73,12 +71,41 @@
 		form.submit();
 	}
 	
+	function checkLoginIdDup(el) {
+		$(".loginId-msg").empty();
+		const form = $(el).closest('form').get(0);
+		
+		if (form.loginId.value.length == 0) {
+			return;
+		}
+		
+		$.get('getLoginIdDup', {
+			loginId : form.loginId.value,
+			ajaxMode : 'Y'
+		}, function(data){
+			console.log(data);
+			$(".loginId-msg").html(data.data1 + '은(는) ' + data.msg);
+			if (data.success) {
+				validLoginId = data.data1;
+			}else {
+				validLoginId = '';
+			}
+		}, 'json');
+	}
 	
+	function requiredData(el) {
+		$(".required-msg").empty();
+		const form = $(el).closest('form').get(0);
+		
+		if (form.loginPw.value.length == 0) {
+			$(".required-msg").html('필수 정보 입니다');
+		}
+	}
 </script>
 
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
-		<form action="doJoin" method="POST" enctype="multipart/form-data" onsubmit="MemberJoin__submit(this); return false;">
+		<form action="doJoin" method="POST" onsubmit="MemberJoin__submit(this); return false;">
 			<div class="table-box-type-1">
 				<table>
 					<colgroup>
@@ -111,10 +138,6 @@
 						<tr>
 							<th>닉네임</th>
 							<td><input class="input input-bordered w-full max-w-xs" type="text" name="nickname" placeholder="닉네임을 입력해주세요" /></td>
-						</tr>
-						<tr>
-							<th>프로필 이미지</th>
-							<td><input accept="image/gif, image/jpeg, image/png" type="file" name="file__member__0__extra__profileImg__1" placeholder="프로필 이미지를 선택해주세요" /></td>
 						</tr>
 						<tr>
 							<th>전화번호</th>

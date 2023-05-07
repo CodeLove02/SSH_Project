@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>${pageTitle}</title>
 <!-- 파비콘 불러오기 -->
-<link rel="shortcut icon" href="/favicon.ico"/>
+<link rel="shortcut icon" href="/favicon.ico" />
 <!-- 테일윈드 불러오기 -->
 <!-- 노말라이즈, 라이브러리 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.7/tailwind.min.css" />
@@ -24,7 +24,7 @@
 <body>
 	<header>
 		<div class="h-20 flex container mx-auto text-3xl">
-			<a class="h-full px-3 flex items-center" href="#"><span>로고</span></a>
+			<a class="h-full px-3 flex items-center" href="/"><span>로고</span></a>
 			<div class="flex-grow"></div>
 			<ul class="flex">
 				<li class="hover:underline"><a class="h-full px-3 flex items-center" href="/"><span>HOME</span></a></li>
@@ -32,6 +32,7 @@
 				<li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/article/list?boardId=2"><span>FREE</span></a></li>
 				<c:if test="${rq.getLoginedMemberId() == 0 }">
 					<li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/member/login"><span>LOGIN</span></a></li>
+					<li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/member/join"><span>JOIN</span></a></li>
 				</c:if>
 				<c:if test="${rq.getLoginedMemberId() != 0 }">
 					<li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/member/myPage"><span>MYPAGE</span></a></li>
