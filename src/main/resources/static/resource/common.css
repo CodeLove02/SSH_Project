@@ -12,10 +12,8 @@
   src: url('https://cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoB.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoB.woff') format('woff');
 }
 
-
 html > body, html > body .toastui-editor-contents, html > body .ProseMirror {
  font-family: 'Godo', sans-serif;
- 
 }
 
 html > body .toastui-editor-contents, html > body .ProseMirror {
@@ -144,8 +142,9 @@ body {
 	opacity: .75;
 }
 
-
-
+.rounded-circle {
+	border-radius: 50%;
+}
 
 
 
